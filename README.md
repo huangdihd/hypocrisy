@@ -10,7 +10,8 @@
 ### 可以去[这里](https://github.com/pengzhile/pandora/blob/master/doc/wiki.md)查看pandora开发者写的教程
 ## 2. 克隆仓库
 ### 使用`git clone https://github.com/huangdihd/hypocrisy` 来克隆本仓库
-## 3. 填写配置文件,保存于同文件夹下的`config.json`
+## 3. 填写配置文件
+### 保存于同文件夹下的`config.json`
 ```json
 {
     "model": "你要使用的模型",
@@ -19,6 +20,7 @@
 ```
 ## 4. 启动
 ### 直接 `python3 main.py`就行了,~~比原神启动还简单~~
+### 项目默认会监听127.0.0.1的34322端口上,又特殊需求可以去程序内自行修改
 # 使用教程
 ### APIKEY就是你pandora项目中的token名称
 ### 正常当成API用就行了,虽然不是完美平替,但是聊天一类的小功能还是可以实现的
