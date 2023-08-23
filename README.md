@@ -10,7 +10,7 @@
 ### 可以去[这里](https://github.com/pengzhile/pandora/blob/master/doc/wiki.md)查看pandora开发者写的教程
 ## 2. 克隆仓库
 ### 使用`git clone https://github.com/huangdihd/hypocrisy` 来克隆本仓库
-## 3. 填写配置文件
+## 3. 填写配置文件,保存于同文件夹下的`config.json`
 ```json
 {
     "model": "你要使用的模型",
