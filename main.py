@@ -20,10 +20,11 @@ app = Flask(__name__)
 
 config = None
 
+pandora_services = None
+
 
 def pandora_starter(command):
-    while True:
-        os.system(command)
+    os.system(command)
 
 
 def config_guide():
@@ -55,7 +56,7 @@ def config_guide():
 
 
 def init():
-    global config
+    global config, pandora_services
     if not os.path.exists('config.json'):
         print('未检测到配置文件,创建向导启动!')
         config_guide()
@@ -63,7 +64,8 @@ def init():
     if config['pandora'][-1] != '/':
         config['pandora'] += '/'
     if config['pandora_command'] != '':
-        threading.Thread(target=pandora_starter, args=(config['pandora_command'], )).start()
+        pandora_services = threading.Thread(target=pandora_starter, args=(config['pandora_command'],))
+        pandora_services.start()
 
 
 def chat(prompt, token):
@@ -109,26 +111,26 @@ def talk():
     gpt, status, code = chat(message, request.headers.get("Authorization")[7:])
     if status:
         return {
-            "choices": [
-                {
-                    "finish_reason": "stop",
-                    "index": 0,
-                    "message": {
-                        "content": gpt,
-                        "role": "assistant"
-                    }
-                }
-            ],
-            "created": 0,
-            "id": "",
-            "model": "",
-            "object": "chat.completion",
-            "usage": {
-                "completion_tokens": 0,
-                "prompt_tokens": 0,
-                "total_tokens": 0
-            }
-        }, code
+                   "choices": [
+                       {
+                           "finish_reason": "stop",
+                           "index": 0,
+                           "message": {
+                               "content": gpt,
+                               "role": "assistant"
+                           }
+                       }
+                   ],
+                   "created": 0,
+                   "id": "",
+                   "model": "",
+                   "object": "chat.completion",
+                   "usage": {
+                       "completion_tokens": 0,
+                       "prompt_tokens": 0,
+                       "total_tokens": 0
+                   }
+               }, code
     else:
         return gpt, code
 
