@@ -6,21 +6,14 @@
 # 使用前声明: 
 ## **此项目不能在任何程度上完美平替官方API**
 # 安装教程
-## 1. 安装并启动pandra项目的server模式
-### 可以去[这里](https://github.com/pengzhile/pandora/blob/master/doc/wiki.md)查看pandora开发者写的教程
-## 2. 克隆仓库
+## 1. 克隆仓库
 ### 使用`git clone https://github.com/huangdihd/hypocrisy` 来克隆本仓库
-## 3. 填写配置文件
-### 保存于同文件夹下的`config.json`
-```json
-{
-    "model": "你要使用的模型",
-    "pandora": "pandora的server模式下的地址"
-}
-```
-## 4. 启动
+## 2. 启动
 ### 直接 `python3 main.py`就行了,~~比原神启动还简单~~
-### 项目默认会监听127.0.0.1的34322端口上,又特殊需求可以去程序内自行修改
+## 3. 安装前置库
+### 程序会自己解决,自己解决一下报错就可以了
+## 4. 填写配置文件
+### 按需填写配置文件,如果没有现成的pandora实例的话此流程会自动安装和配置pandora的server模式
 # 使用教程
 ### APIKEY就是你pandora项目中的token名称
 ### 正常当成API用就行了,虽然不是完美平替,但是聊天一类的小功能还是可以实现的
