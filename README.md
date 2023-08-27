@@ -20,3 +20,4 @@
 # 遇到问题
 ### 可以去ISSUES提,也欢迎加我qq:`2577467096`来讨论该项目
 ## 再次声明,**此项目不能在任何程度上完美平替官方API**
+## 如果你是看我抖音来的,可以去看看[虚拟桌宠模拟器使用本工具的配置教程](https://github.com/huangdihd/hypocrisy/blob/main/vpet.md)
