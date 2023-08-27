@@ -137,4 +137,4 @@ def talk():
 
 if __name__ == '__main__':
     init()
-    app.run(ip=config['ip'], port=config['port'])
+    app.run(host=config['ip'], port=config['port'])
