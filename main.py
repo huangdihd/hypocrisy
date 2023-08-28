@@ -10,11 +10,13 @@ try:
 except ModuleNotFoundError:
     print('检测到缺少库:requests,正在安装')
     os.system(sys.executable + ' -m pip install requests')
+    import requests
 try:
     from flask import Flask, request
 except ModuleNotFoundError:
     print('检测到缺少库:flask,正在安装')
     os.system(sys.executable + ' -m pip install flask')
+    from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -41,7 +43,7 @@ def config_guide():
                 int(input(f'你准备输入几个token?(可以去https://ai-{datetime.now().strftime("%Y%m%d")}.fakeopen.com/auth1获取):'))):
             pandora_token[input('token的名称:')] = input('token的值:')
         with open('token.json', 'w') as f:
-            f.write(json.dumps(pandora_token))
+            f.write(json.dumps(pandora_token, indent=4))
     model = input('使用的模型:')
     ip = input('监听的ip(一般写127.0.0.1):')
     port = int(input('监听的端口:'))
@@ -52,7 +54,7 @@ def config_guide():
             "port": port,
             "ip": ip,
             "pandora_command": pandora_command
-        }))
+        }, indent=4))
 
 
 def init():
@@ -66,6 +68,14 @@ def init():
     if config['pandora_command'] != '':
         pandora_services = threading.Thread(target=pandora_starter, args=(config['pandora_command'],))
         pandora_services.start()
+    if 'tokens' not in config:
+        config['tokens'] = {}
+    for key in list(config.keys()):
+        if key not in ['model', 'pandora', 'port', 'port', 'ip', 'pandora_command', 'tokens']:
+            config['tokens'][key] = config[key]
+            del config[key]
+    with open('config.json', 'w') as f:
+        f.write(json.dumps(config, indent=4))
 
 
 def chat(prompt, token):
@@ -73,7 +83,7 @@ def chat(prompt, token):
     headers = {
         'X-Use-Token': token
     }
-    if token not in config:
+    if token not in config['tokens']:
         data = {
             'model': config['model'],
             "prompt": prompt,
@@ -83,16 +93,16 @@ def chat(prompt, token):
         }
     else:
         data = {
-            'conversation_id': config[token]['conversation_id'],
+            'conversation_id': config['tokens'][token]['conversation_id'],
             'model': config['model'],
             "prompt": prompt,
             "message_id": str(uuid.uuid4()),
-            "parent_message_id": config[token]['message_id'],
+            "parent_message_id": config['tokens'][token]['message_id'],
             'stream': False
         }
     gpt = requests.post(url=config['pandora'] + 'api/conversation/talk', headers=headers, json=data)
     if gpt.status_code == 200:
-        config[token] = {
+        config['tokens'][token] = {
             'conversation_id': gpt.json()['conversation_id'],
             'message_id': str(gpt.json()['message']['id'])
         }
@@ -121,7 +131,7 @@ def talk():
                            }
                        }
                    ],
-                   "created": 0,
+                   "created": int(datetime.now().timestamp()),
                    "id": "",
                    "model": "",
                    "object": "chat.completion",
